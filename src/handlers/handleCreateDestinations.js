@@ -1,18 +1,15 @@
 'use strict';
 
-const { destinationsCollection } = require('../collections/index');
+const { DestinationsModel } = require('../models/DestinationsModel.js');
 
-module.exports = (req, res) => {
-  destinationsCollection.insertOne(req.body)
-    .then(result => {
-      let response = {
-        finalPhoto: req.body.photo,
-        _id: result.insertedId
-      }
-      res.status(200).json(response)
-    })
-    .catch(error => {
-      console.error(error)
-      res.status(500).send('Error saving into db')
-    })
+module.exports = async (req, res) => {
+  try {
+    let newDestination = new DestinationsModel(req.body);
+    let newDocument = await newDestination.save();
+    res.status(200).json(newDocument);
+
+  } catch (error) {
+    console.error(error)
+    res.status(500).send('Error saving into db')
+  }
 }
