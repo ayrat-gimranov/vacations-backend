@@ -1,11 +1,13 @@
 'use strict';
 
-const { destinationsCollection } = require('../collections/index');
+const { DestinationsModel } = require('../models/DestinationsModel.js');
 
-module.exports = (req, res) => {
-  const cursor = destinationsCollection.find().toArray()
-    .then(results => {
-      res.json(results)
-    })
-    .catch(error => console.error(error))
+module.exports = async (req, res) => {
+  try {
+   const results = await DestinationsModel.find({});
+   res.status(200).json(results) ;
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error retrieving from database');
+  }
 }

@@ -1,13 +1,15 @@
 'use strict';
 
 require('dotenv').config();
-const { client } = require('./src/collections/index.js');
 const server = require('./src/server');
+const { mongoose } = require('./src/models/DestinationsModel');
 
-
-client.connect()
-  .then(client => {
-    console.log('Connected to Database');
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+  .then(() => {
+    console.log('Connected to the database')
     server.start();
   })
   .catch(error => {
