@@ -14,10 +14,14 @@ const handleDeleteDestinations = require('./handlers/handleDeleteDestinations');
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.get('/', (req, res) => {
+  res.status(200).send("Hello world!")
+})
 app.get('/destinations', handleGetDestinations);
 app.post('/destinations', fetchPhoto, handleCreateDestinations);
 app.put('/destinations', fetchPhoto, handleUpdateDestinations);
 app.delete('/destinations', handleDeleteDestinations);
+
 
 function start() {
   app.listen(PORT, () => console.log("listening on port ", PORT));
